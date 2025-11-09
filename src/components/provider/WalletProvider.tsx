@@ -1,7 +1,13 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { BrowserProvider, JsonRpcSigner, ethers } from 'ethers';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { BrowserProvider, JsonRpcSigner, ethers } from "ethers";
 
 interface EthersContextType {
   provider: BrowserProvider | null;
@@ -15,7 +21,6 @@ interface EthersContextType {
 }
 
 const EthersContext = createContext<EthersContextType | undefined>(undefined);
-
 
 // Add this interface before your component
 interface EthereumProvider {
@@ -42,21 +47,23 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const checkConnection = async () => {
-    if (typeof window === 'undefined' || !window.ethereum) return;
+    if (typeof window === "undefined" || !window.ethereum) return;
 
     try {
-      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      const accounts = await window.ethereum.request({
+        method: "eth_accounts",
+      });
       if (accounts.length > 0) {
         await initializeProvider();
       }
     } catch (err) {
-      console.error('Error checking connection:', err);
+      console.error("Error checking connection:", err);
     }
   };
 
   const initializeProvider = async () => {
     if (!window.ethereum) {
-      setError('No Ethereum wallet found. Please install MetaMask.');
+      setError("No Ethereum wallet found. Please install MetaMask.");
       return;
     }
 
@@ -70,14 +77,14 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       setAddress(userAddress);
       setError(null);
     } catch (err) {
-      console.error('Error initializing provider:', err);
-      setError('Failed to initialize wallet connection.');
+      console.error("Error initializing provider:", err);
+      setError("Failed to initialize wallet connection.");
     }
   };
 
   const connectWallet = async () => {
     if (!window.ethereum) {
-      setError('No Ethereum wallet found. Please install MetaMask.');
+      setError("No Ethereum wallet found. Please install MetaMask.");
       return;
     }
 
@@ -86,14 +93,14 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
     try {
       // Request account access
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      await window.ethereum.request({ method: "eth_requestAccounts" });
       await initializeProvider();
     } catch (err: any) {
-      console.error('Error connecting wallet:', err);
+      console.error("Error connecting wallet:", err);
       if (err.code === 4001) {
-        setError('Connection rejected by user.');
+        setError("Connection rejected by user.");
       } else {
-        setError('Failed to connect wallet.');
+        setError("Failed to connect wallet.");
       }
     } finally {
       setIsLoading(false);
@@ -125,12 +132,12 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       window.location.reload();
     };
 
-    window.ethereum.on('accountsChanged', handleAccountsChanged);
-    window.ethereum.on('chainChanged', handleChainChanged);
+    window.ethereum.on("accountsChanged", handleAccountsChanged);
+    window.ethereum.on("chainChanged", handleChainChanged);
 
     return () => {
-      window.ethereum?.removeListener('accountsChanged', handleAccountsChanged);
-      window.ethereum?.removeListener('chainChanged', handleChainChanged);
+      window.ethereum?.removeListener("accountsChanged", handleAccountsChanged);
+      window.ethereum?.removeListener("chainChanged", handleChainChanged);
     };
   }, []);
 
@@ -146,16 +153,14 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <EthersContext.Provider value={value}>
-      {children}
-    </EthersContext.Provider>
+    <EthersContext.Provider value={value}>{children}</EthersContext.Provider>
   );
 }
 
 export function useEthers() {
   const context = useContext(EthersContext);
   if (context === undefined) {
-    throw new Error('useEthers must be used within an EthersProvider');
+    throw new Error("useEthers must be used within an EthersProvider");
   }
   return context;
 }

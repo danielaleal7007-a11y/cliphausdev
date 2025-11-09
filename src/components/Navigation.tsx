@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { WalletConnect } from './WalletConnect';
-import { ConnectionStatus } from './ConnectionStatus';
+import Link from "next/link";
+import { WalletConnect } from "./WalletConnect";
+import { ConnectionStatus } from "./ConnectionStatus";
 
 export const Navigation = () => {
   return (
@@ -15,18 +15,20 @@ export const Navigation = () => {
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">M</span>
               </div>
-              <span className="font-bold text-gray-900 text-lg">MemeContest</span>
+              <span className="font-bold text-gray-900 text-lg">
+                MemeContest
+              </span>
             </Link>
-            
+
             <div className="hidden md:flex items-center gap-6">
-              <Link 
-                href="/contests" 
+              <Link
+                href="/contests"
                 className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
               >
                 Contests
               </Link>
-              <Link 
-                href="/create-contest" 
+              <Link
+                href="/create-contest"
                 className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
               >
                 Create Contest

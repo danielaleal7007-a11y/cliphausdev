@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { useContestContext } from '../hooks/useContestContext';
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { useContestContext } from "../hooks/useContestContext";
 
 export interface Contest {
   id: number;
@@ -14,7 +14,7 @@ export interface Contest {
   totalVotes: number;
   endTime: number;
   startTime?: number;
-  status?: 'upcoming' | 'active' | 'voting' | 'completed';
+  status?: "upcoming" | "active" | "voting" | "completed";
 }
 
 interface ContestCardProps {
@@ -22,8 +22,10 @@ interface ContestCardProps {
 }
 
 export const ContestCard = ({ contest }: ContestCardProps) => {
-  const [timeLeft, setTimeLeft] = useState<string>('');
-  const [contestStatus, setContestStatus] = useState<'upcoming' | 'active' | 'voting' | 'completed'>('active');
+  const [timeLeft, setTimeLeft] = useState<string>("");
+  const [contestStatus, setContestStatus] = useState<
+    "upcoming" | "active" | "voting" | "completed"
+  >("active");
   const { setCurrentContest } = useContestContext();
 
   useEffect(() => {
@@ -33,13 +35,15 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
       const difference = endTime - now;
 
       if (difference <= 0) {
-        setContestStatus('completed');
-        setTimeLeft('Ended');
+        setContestStatus("completed");
+        setTimeLeft("Ended");
         return;
       }
 
       const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const hours = Math.floor(
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
       const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
 
       if (days > 0) {
@@ -52,11 +56,15 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
 
       // Determine status based on time
       if (contest.startTime && now < contest.startTime) {
-        setContestStatus('upcoming');
-      } else if (contest.startTime && now > contest.startTime && now < contest.endTime) {
-        setContestStatus('active');
+        setContestStatus("upcoming");
+      } else if (
+        contest.startTime &&
+        now > contest.startTime &&
+        now < contest.endTime
+      ) {
+        setContestStatus("active");
       } else {
-        setContestStatus('completed');
+        setContestStatus("completed");
       }
     };
 
@@ -72,18 +80,38 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
 
   const getStatusBadge = () => {
     const baseClasses = "px-2 py-1 rounded-full text-xs font-medium";
-    
+
     switch (contestStatus) {
-      case 'upcoming':
-        return <span className={`${baseClasses} bg-blue-100 text-blue-800`}>Upcoming</span>;
-      case 'active':
-        return <span className={`${baseClasses} bg-green-100 text-green-800`}>Active</span>;
-      case 'voting':
-        return <span className={`${baseClasses} bg-purple-100 text-purple-800`}>Voting</span>;
-      case 'completed':
-        return <span className={`${baseClasses} bg-gray-100 text-gray-800`}>Completed</span>;
+      case "upcoming":
+        return (
+          <span className={`${baseClasses} bg-blue-100 text-blue-800`}>
+            Upcoming
+          </span>
+        );
+      case "active":
+        return (
+          <span className={`${baseClasses} bg-green-100 text-green-800`}>
+            Active
+          </span>
+        );
+      case "voting":
+        return (
+          <span className={`${baseClasses} bg-purple-100 text-purple-800`}>
+            Voting
+          </span>
+        );
+      case "completed":
+        return (
+          <span className={`${baseClasses} bg-gray-100 text-gray-800`}>
+            Completed
+          </span>
+        );
       default:
-        return <span className={`${baseClasses} bg-gray-100 text-gray-800`}>Active</span>;
+        return (
+          <span className={`${baseClasses} bg-gray-100 text-gray-800`}>
+            Active
+          </span>
+        );
     }
   };
 
@@ -91,7 +119,10 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
-  const truncateDescription = (description: string, maxLength: number = 100) => {
+  const truncateDescription = (
+    description: string,
+    maxLength: number = 100,
+  ) => {
     if (description.length <= maxLength) return description;
     return `${description.slice(0, maxLength)}...`;
   };
@@ -110,9 +141,13 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
         </div>
         <div className="flex flex-col items-end gap-2">
           {getStatusBadge()}
-          <span className={`text-sm font-medium ${
-            contestStatus === 'completed' ? 'text-gray-500' : 'text-orange-600'
-          }`}>
+          <span
+            className={`text-sm font-medium ${
+              contestStatus === "completed"
+                ? "text-gray-500"
+                : "text-orange-600"
+            }`}
+          >
             {timeLeft}
           </span>
         </div>
@@ -128,14 +163,34 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
         <div className="flex justify-between items-center text-sm text-gray-600">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
               </svg>
               <span>{contest.proposalCount} proposals</span>
             </div>
             <div className="flex items-center gap-1">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
               </svg>
               <span>{contest.totalVotes} votes</span>
             </div>
@@ -150,18 +205,18 @@ export const ContestCard = ({ contest }: ContestCardProps) => {
           onClick={handleSelectContest}
           className="w-full bg-blue-600 text-white text-center py-2 px-4 rounded-md hover:bg-blue-700 transition-colors block"
         >
-          {contestStatus === 'completed' ? 'View Results' : 'View Contest'}
+          {contestStatus === "completed" ? "View Results" : "View Contest"}
         </Link>
       </div>
 
       {/* Progress Bar (optional) */}
-      {contestStatus !== 'completed' && (
+      {contestStatus !== "completed" && (
         <div className="px-4 pb-4">
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
+            <div
               className="bg-blue-600 h-2 rounded-full transition-all duration-500"
               style={{
-                width: `${Math.min(100, (contest.totalVotes / Math.max(contest.proposalCount * 10, 1)) * 100)}%`
+                width: `${Math.min(100, (contest.totalVotes / Math.max(contest.proposalCount * 10, 1)) * 100)}%`,
               }}
             />
           </div>

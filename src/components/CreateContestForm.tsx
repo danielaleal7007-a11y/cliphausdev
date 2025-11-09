@@ -1,50 +1,51 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useMemeContestFactory } from '../hooks/useMemeContestFactory';
-import { useRouter } from 'next/navigation';
-import { ethers } from 'ethers';
+import { useState, useEffect } from "react";
+import { useMemeContestFactory } from "../hooks/useMemeContestFactory";
+import { useRouter } from "next/navigation";
+import { ethers } from "ethers";
 
 export const CreateContestForm = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [votingPeriod, setVotingPeriod] = useState(7); // days
-  const [costToPropose, setCostToPropose] = useState('0.01');
-  const [costToVote, setCostToVote] = useState('0.001');
+  const [costToPropose, setCostToPropose] = useState("0.01");
+  const [costToVote, setCostToVote] = useState("0.001");
   const [maxProposals, setMaxProposals] = useState(100);
-  
+
   const router = useRouter();
 
   // Add transactionHash to the hook destructuring
-const { createContest, isLoading, error, transactionHash } = useMemeContestFactory();
+  const { createContest, isLoading, error, transactionHash } =
+    useMemeContestFactory();
 
-// Add useEffect for successful transaction
-useEffect(() => {
-  if (transactionHash) {
-    setTimeout(() => {
-      router.push('/contests');
-    }, 2000);
-  }
-}, [transactionHash, router]);
+  // Add useEffect for successful transaction
+  useEffect(() => {
+    if (transactionHash) {
+      setTimeout(() => {
+        router.push("/contests");
+      }, 2000);
+    }
+  }, [transactionHash, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     createContest({
       votingPeriod: votingPeriod * 24 * 60 * 60,
       costToPropose: ethers.parseEther(costToPropose),
       costToVote: ethers.parseEther(costToVote),
       maxProposalCount: maxProposals,
     });
-
-
   };
 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900">Contest Configuration</h2>
-        
+        <h2 className="text-2xl font-bold mb-6 text-gray-900">
+          Contest Configuration
+        </h2>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Info */}
           <div className="grid grid-cols-1 gap-6">
@@ -148,22 +149,25 @@ useEffect(() => {
           {/* Submit Button */}
           <button
             type="submit"
-           // Update button disabled state and text
-disabled={isLoading}
+            // Update button disabled state and text
+            disabled={isLoading}
             className="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-medium transition-colors"
           >
-     
-           {isLoading ? 'Creating Contest...' : transactionHash ? 'Contest Created!' : 'Create Contest'}
+            {isLoading
+              ? "Creating Contest..."
+              : transactionHash
+                ? "Contest Created!"
+                : "Create Contest"}
           </button>
 
           {/* Status Messages */}
-    
-{transactionHash && (
-  <div className="p-4 bg-green-100 text-green-700 rounded-md">
-    <p className="font-medium">Contest created successfully!</p>
-    <p className="text-sm">Redirecting to contests page...</p>
-  </div>
-)}
+
+          {transactionHash && (
+            <div className="p-4 bg-green-100 text-green-700 rounded-md">
+              <p className="font-medium">Contest created successfully!</p>
+              <p className="text-sm">Redirecting to contests page...</p>
+            </div>
+          )}
 
           {error && (
             <div className="p-4 bg-red-100 text-red-700 rounded-md">

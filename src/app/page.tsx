@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 //import { CryptoCard } from '../components/CryptoCard';
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
           <p className="text-xl text-gray-600 mb-8">
             Create contests, submit memes, and vote for the best content
           </p>
-          
+
           <div className="flex justify-center gap-4">
             <Link
               href="/create-contest"
@@ -28,7 +28,6 @@ export default function Home() {
             </Link>
           </div>
         </div>
-
       </div>
     </div>
   );

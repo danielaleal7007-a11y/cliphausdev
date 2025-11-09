@@ -1,15 +1,10 @@
-'use client';
+"use client";
 
-import { useEthers } from './provider/WalletProvider';
+import { useEthers } from "./provider/WalletProvider";
 
 export const WalletConnect = () => {
-  const { 
-    address, 
-    isConnected, 
-    connectWallet, 
-    disconnectWallet, 
-    isLoading 
-  } = useEthers();
+  const { address, isConnected, connectWallet, disconnectWallet, isLoading } =
+    useEthers();
 
   const truncateAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
@@ -40,7 +35,7 @@ export const WalletConnect = () => {
       disabled={isLoading}
       className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
     >
-      {isLoading ? 'Connecting...' : 'Connect Wallet'}
+      {isLoading ? "Connecting..." : "Connect Wallet"}
     </button>
   );
 };

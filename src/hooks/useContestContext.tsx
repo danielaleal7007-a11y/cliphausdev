@@ -1,7 +1,7 @@
 // hooks/useContestContext.tsx
-'use client';
+"use client";
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from "react";
 
 interface ContestContextType {
   currentContest: string | null;
@@ -21,16 +21,14 @@ export function ContestProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <ContestContext.Provider value={value}>
-      {children}
-    </ContestContext.Provider>
+    <ContestContext.Provider value={value}>{children}</ContestContext.Provider>
   );
 }
 
 export function useContestContext() {
   const context = useContext(ContestContext);
   if (context === undefined) {
-    throw new Error('useContestContext must be used within a ContestProvider');
+    throw new Error("useContestContext must be used within a ContestProvider");
   }
   return context;
 }

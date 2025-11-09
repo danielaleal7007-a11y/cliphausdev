@@ -1,15 +1,16 @@
 // components/CreateProposalForm.tsx
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useCreateProposal } from '../hooks/useCreateProposal';
-import { DEFAULT_CONTEST_CONFIG } from './constants/contracts';
+import { useState } from "react";
+import { useCreateProposal } from "../hooks/useCreateProposal";
+import { DEFAULT_CONTEST_CONFIG } from "./constants/contracts";
 
 export const CreateProposalForm = () => {
-  const [proposalDescription, setProposalDescription] = useState('');
-  const [contentHash, setContentHash] = useState('');
-  
-  const { createProposal, isLoading, error, transactionHash, currentContest } = useCreateProposal();
+  const [proposalDescription, setProposalDescription] = useState("");
+  const [contentHash, setContentHash] = useState("");
+
+  const { createProposal, isLoading, error, transactionHash, currentContest } =
+    useCreateProposal();
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   const handleSubmit = async () => {
@@ -19,8 +20,8 @@ export const CreateProposalForm = () => {
       await createProposal(proposalDescription, contentHash);
       setIsConfirmed(true);
       // Clear form on success
-      setProposalDescription('');
-      setContentHash('');
+      setProposalDescription("");
+      setContentHash("");
     } catch (err) {
       // Error handled by hook
     }
@@ -42,7 +43,7 @@ export const CreateProposalForm = () => {
       <p className="text-sm text-gray-600 mb-4">
         Submitting to: {currentContest.slice(0, 8)}...{currentContest.slice(-6)}
       </p>
-      
+
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -79,7 +80,11 @@ export const CreateProposalForm = () => {
           disabled={isLoading || isConfirmed}
           className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Submitting...' : isConfirmed ? 'Confirmed!' : 'Submit Proposal'}
+          {isLoading
+            ? "Submitting..."
+            : isConfirmed
+              ? "Confirmed!"
+              : "Submit Proposal"}
         </button>
 
         {error && (

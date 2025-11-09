@@ -1,33 +1,46 @@
-'use client';
+"use client";
 
-import { useEthers } from './provider/WalletProvider';
-import { useEffect, useState } from 'react';
+import { useEthers } from "./provider/WalletProvider";
+import { useEffect, useState } from "react";
 
 export const ConnectionStatus = () => {
   const { isConnected, isLoading, provider } = useEthers();
-  const [networkName, setNetworkName] = useState<string>('');
+  const [networkName, setNetworkName] = useState<string>("");
 
   useEffect(() => {
     const fetchNetwork = async () => {
       if (!provider || !isConnected) {
-        setNetworkName('');
+        setNetworkName("");
         return;
       }
 
       try {
         const network = await provider.getNetwork();
         switch (network.chainId) {
-          case BigInt(1): setNetworkName('Ethereum Mainnet'); break;
-          case BigInt(84532): setNetworkName('Base-Sepolia'); break;
-          case BigInt(5): setNetworkName('Goerli'); break;
-          case BigInt(137): setNetworkName('Polygon'); break;
-          case BigInt(80001): setNetworkName('Mumbai'); break;
-          case BigInt(1337): setNetworkName('Localhost'); break;
-          default: setNetworkName(`Chain ${network.chainId}`);
+          case BigInt(1):
+            setNetworkName("Ethereum Mainnet");
+            break;
+          case BigInt(84532):
+            setNetworkName("Base-Sepolia");
+            break;
+          case BigInt(5):
+            setNetworkName("Goerli");
+            break;
+          case BigInt(137):
+            setNetworkName("Polygon");
+            break;
+          case BigInt(80001):
+            setNetworkName("Mumbai");
+            break;
+          case BigInt(1337):
+            setNetworkName("Localhost");
+            break;
+          default:
+            setNetworkName(`Chain ${network.chainId}`);
         }
       } catch (error) {
-        console.error('Error getting network:', error);
-        setNetworkName('Unknown Network');
+        console.error("Error getting network:", error);
+        setNetworkName("Unknown Network");
       }
     };
 
@@ -35,15 +48,15 @@ export const ConnectionStatus = () => {
   }, [provider, isConnected]);
 
   const getStatusColor = () => {
-    if (isLoading) return 'bg-yellow-500';
-    if (isConnected) return 'bg-green-500';
-    return 'bg-red-500';
+    if (isLoading) return "bg-yellow-500";
+    if (isConnected) return "bg-green-500";
+    return "bg-red-500";
   };
 
   const getStatusText = () => {
-    if (isLoading) return 'Connecting...';
-    if (isConnected) return 'Connected';
-    return 'Disconnected';
+    if (isLoading) return "Connecting...";
+    if (isConnected) return "Connected";
+    return "Disconnected";
   };
 
   return (
