@@ -148,7 +148,7 @@ export default function ContestDetailPage() {
 
         {/* Tab Content */}
         {activeTab === "proposals" && (
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {mockProposals.map((proposal, index) => (
               <div key={proposal.id} style={{ animationDelay: `${index * 0.1}s` }}>
                 <ProposalCard proposal={proposal} />
